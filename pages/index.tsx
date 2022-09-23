@@ -1,15 +1,19 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import {
-  Container,
-  Main,
-  Title,
-  Description,
-  CodeTag,
-} from '../styles/shared'
-import Cards from '../components/cards'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Store from "store2";
+import useTheme from "../lib/hooks/useTheme";
+import { Container, Main, Title, Description, CodeTag } from "../styles/shared";
+import { ThemeVariant } from "../styles/theme";
+import Button from "../components/Button";
 
 const Home: NextPage = () => {
+  const { setCurrentTheme } = useTheme();
+
+  const handleClick = (theme: ThemeVariant) => {
+    setCurrentTheme(theme);
+    Store("current-theme", theme);
+  };
+
   return (
     <Container>
       <Head>
@@ -27,10 +31,13 @@ const Home: NextPage = () => {
           <CodeTag>pages/index.tsx</CodeTag>
         </Description>
 
-        <Cards />
+        <div>
+          <Button onClick={() => handleClick("light")}>Light</Button>
+          <Button onClick={() => handleClick("dark")}>Dark</Button>
+        </div>
       </Main>
     </Container>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
